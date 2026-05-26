@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSMicrophoneInjectionUsageDescription</key>
+	<string>Konuşmaları yazıya dökmek için konuşma tanıma erişimi gereklidir.</string>
+	<key>Privacy - NSMicrophoneUsageDescription</key>
+	<string>Mikrofon: Ses kaydı için mikrofon erişimi gerekiyor.</string>
+	<key>Privacy - NSSpeechRecognitionUsageDescription</key>
+	<string>Konuşma Tanıma: Konuşmalarınızı metne dönüştürmek için izin gerekiyor.</string>
+</dict>
+</plist>

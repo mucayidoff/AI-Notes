@@ -1,0 +1,328 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "note_title_placeholder": {
+      "localizations": {
+        "en": { "string": "Title" },
+        "tr": { "string": "Başlık" },
+        "ru": { "string": "Заголовок" }
+      }
+    },
+    "note_content_placeholder": {
+      "localizations": {
+        "en": { "string": "Content..." },
+        "tr": { "string": "İçerik..." },
+        "ru": { "string": "Содержание..." }
+      }
+    },
+    "predict_tag": {
+      "localizations": {
+        "en": { "string": "Predict Tag" },
+        "tr": { "string": "Etiketi Tahmin Et" },
+        "ru": { "string": "Предсказать Тег" }
+      }
+    },
+    "predicted_tag_format": {
+      "localizations": {
+        "en": { "string": "🔖 Predicted tag: %@" },
+        "tr": { "string": "🔖 Tahmini etiket: %@" },
+        "ru": { "string": "🔖 Предсказанный тег: %@" }
+      }
+    },
+    "ai_summary_title": {
+      "localizations": {
+        "en": { "string": "AI Summary" },
+        "tr": { "string": "Yapay Zekâ Özeti" },
+        "ru": { "string": "ИИ Резюме" }
+      }
+    },
+    "summary_placeholder": {
+      "localizations": {
+        "en": { "string": "Summary will be generated here..." },
+        "tr": { "string": "Özet buraya otomatik gelir..." },
+        "ru": { "string": "Резюме будет сгенерировано здесь..." }
+      }
+    },
+    "language_label": {
+      "localizations": {
+        "en": { "string": "Language:" },
+        "tr": { "string": "Dil:" },
+        "ru": { "string": "Язык:" }
+      }
+    },
+    "language_picker_title": {
+      "localizations": {
+        "en": { "string": "Language" },
+        "tr": { "string": "Dil" },
+        "ru": { "string": "Язык" }
+      }
+    },
+    "permission_check": {
+      "localizations": {
+        "en": { "string": "Check Permissions" },
+        "tr": { "string": "İzin Kontrol" },
+        "ru": { "string": "Проверить Разрешения" }
+      }
+    },
+    "recording_in_progress": {
+      "localizations": {
+        "en": { "string": "Recording" },
+        "tr": { "string": "Kayıt Sürüyor" },
+        "ru": { "string": "Запись" }
+      }
+    },
+    "start": {
+      "localizations": {
+        "en": { "string": "Start" },
+        "tr": { "string": "Başlat" },
+        "ru": { "string": "Начать" }
+      }
+    },
+    "stop": {
+      "localizations": {
+        "en": { "string": "Stop" },
+        "tr": { "string": "Durdur" },
+        "ru": { "string": "Остановить" }
+      }
+    },
+    "alert_title": {
+      "localizations": {
+        "en": { "string": "Alert" },
+        "tr": { "string": "Uyarı" },
+        "ru": { "string": "Предупреждение" }
+      }
+    },
+    "go_to_settings": {
+      "localizations": {
+        "en": { "string": "Open Settings" },
+        "tr": { "string": "Ayarlar'a Git" },
+        "ru": { "string": "Открыть Настройки" }
+      }
+    },
+    "ok": {
+      "localizations": {
+        "en": { "string": "OK" },
+        "tr": { "string": "Tamam" },
+        "ru": { "string": "ОК" }
+      }
+    },
+    "title_content_required": {
+      "localizations": {
+        "en": { "string": "Title and content cannot be empty." },
+        "tr": { "string": "Başlık ve içerik boş olamaz." },
+        "ru": { "string": "Заголовок и содержимое не могут быть пустыми." }
+      }
+    },
+    "note_save_failed_format": {
+      "localizations": {
+        "en": { "string": "Failed to save note: %@" },
+        "tr": { "string": "Not kaydedilemedi: %@" },
+        "ru": { "string": "Не удалось сохранить заметку: %@" }
+      }
+    },
+    "speech_start_failed_format": {
+      "localizations": {
+        "en": { "string": "Failed to start speech recognition: %@" },
+        "tr": { "string": "Konuşma tanıma başlatılamadı: %@" },
+        "ru": { "string": "Не удалось запустить распознавание речи: %@" }
+      }
+    },
+    "summary_content_required": {
+      "localizations": {
+        "en": { "string": "Content is required for summary." },
+        "tr": { "string": "Özet için içerik gerekli." },
+        "ru": { "string": "Для резюме требуется содержимое." }
+      }
+    },
+    "auto_summarize": {
+      "localizations": {
+        "en": { "string": "Auto Summarize" },
+        "tr": { "string": "Otomatik Özetle" },
+        "ru": { "string": "Авто Резюме" }
+      }
+    },
+    "save": {
+      "localizations": {
+        "en": { "string": "Save" },
+        "tr": { "string": "Kaydet" },
+        "ru": { "string": "Сохранить" }
+      }
+    },
+    "new_note_title": {
+      "localizations": {
+        "en": { "string": "New Note" },
+        "tr": { "string": "Yeni Not" },
+        "ru": { "string": "Новая Заметка" }
+      }
+    },
+    "edit_note_title": {
+      "localizations": {
+        "en": { "string": "Edit Note" },
+        "tr": { "string": "Notu Düzenle" },
+        "ru": { "string": "Редактировать Заметку" }
+      }
+    },
+    "mic_permission_denied": {
+      "localizations": {
+        "en": { "string": "Microphone permission denied." },
+        "tr": { "string": "Mikrofon izni reddedildi." },
+        "ru": { "string": "Доступ к микрофону запрещен." }
+      }
+    },
+    "speech_permission_denied": {
+      "localizations": {
+        "en": { "string": "Speech recognition permission denied." },
+        "tr": { "string": "Konuşma tanıma izni reddedildi." },
+        "ru": { "string": "Доступ к распознаванию речи запрещен." }
+      }
+    },
+    "mic_required": {
+      "localizations": {
+        "en": { "string": "Microphone permission is required." },
+        "tr": { "string": "Mikrofon izni gerekli." },
+        "ru": { "string": "Требуется доступ к микрофону." }
+      }
+    },
+    "speech_required": {
+      "localizations": {
+        "en": { "string": "Speech recognition permission is required." },
+        "tr": { "string": "Konuşma tanıma izni gerekli." },
+        "ru": { "string": "Требуется доступ к распознаванию речи." }
+      }
+    },
+    "speech_unavailable": {
+      "localizations": {
+        "en": { "string": "Speech recognition is currently unavailable." },
+        "tr": { "string": "Konuşma tanıma şu anda kullanılamıyor." },
+        "ru": { "string": "Распознавание речи сейчас недоступно." }
+      }
+    },
+    "all_tag": {
+      "localizations": {
+        "en": { "string": "All" },
+        "tr": { "string": "Tümü" },
+        "ru": { "string": "Все" }
+      }
+    },
+    "user_fallback_name": {
+      "localizations": {
+        "en": { "string": "User" },
+        "tr": { "string": "Kullanıcı" },
+        "ru": { "string": "Пользователь" }
+      }
+    },
+    "mic_view_title": {
+      "localizations": {
+        "en": { "string": "Voice" },
+        "tr": { "string": "Ses" },
+        "ru": { "string": "Голос" }
+      }
+    },
+    "ai_summarize": {
+      "localizations": {
+        "en": { "string": "AI Summarize" },
+        "tr": { "string": "AI Özetle" },
+        "ru": { "string": "ИИ Резюме" }
+      }
+    },
+    "note_detail_title": {
+      "localizations": {
+        "en": { "string": "Note Details" },
+        "tr": { "string": "Not Detayları" },
+        "ru": { "string": "Детали Заметки" }
+      }
+    },
+    "error_saving_log": {
+      "localizations": {
+        "en": { "string": "Error saving" },
+        "tr": { "string": "Kaydetme hatası" },
+        "ru": { "string": "Ошибка сохранения" }
+      }
+    },
+    "error_save_failed": {
+      "localizations": {
+        "en": { "string": "Failed to save" },
+        "tr": { "string": "Kaydetme başarısız" },
+        "ru": { "string": "Не удалось сохранить" }
+      }
+    },
+    "error_deleting_log": {
+      "localizations": {
+        "en": { "string": "Error deleting" },
+        "tr": { "string": "Silme hatası" },
+        "ru": { "string": "Ошибка удаления" }
+      }
+    },
+    "error_delete_failed": {
+      "localizations": {
+        "en": { "string": "Failed to delete" },
+        "tr": { "string": "Silme başarısız" },
+        "ru": { "string": "Не удалось удалить" }
+      }
+    },
+    "delete": {
+      "localizations": {
+        "en": { "string": "Delete" },
+        "tr": { "string": "Sil" },
+        "ru": { "string": "Удалить" }
+      }
+    },
+    "work_tag": {
+      "localizations": {
+        "en": { "string": "Work" },
+        "tr": { "string": "İş" },
+        "ru": { "string": "Работа" }
+      }
+    },
+    "personal_tag": {
+      "localizations": {
+        "en": { "string": "Personal" },
+        "tr": { "string": "Kişisel" },
+        "ru": { "string": "Личное" }
+      }
+    },
+    "school_tag": {
+      "localizations": {
+        "en": { "string": "School" },
+        "tr": { "string": "Okul" },
+        "ru": { "string": "Школа" }
+      }
+    },
+    "ideas_tag": {
+      "localizations": {
+        "en": { "string": "Ideas" },
+        "tr": { "string": "Fikirler" },
+        "ru": { "string": "Идеи" }
+      }
+    },
+    "education_tag": {
+      "localizations": {
+        "en": { "string": "Education" },
+        "tr": { "string": "Eğitim" },
+        "ru": { "string": "Образование" }
+      }
+    },
+    "change_color": {
+      "localizations": {
+        "en": { "string": "Change Color" },
+        "tr": { "string": "Rengi Değiştir" },
+        "ru": { "string": "Изменить Цвет" }
+      }
+    },
+    "delete_tag_confirm": {
+      "localizations": {
+        "en": { "string": "Delete this tag?" },
+        "tr": { "string": "Etiketi silmek istiyor musunuz?" },
+        "ru": { "string": "Удалить этот тег?" }
+      }
+    },
+    "delete_tag_message": {
+      "localizations": {
+        "en": { "string": "This tag will be removed from the list." },
+        "tr": { "string": "Bu etiket listeden kaldırılacak." },
+        "ru": { "string": "Этот тег будет удален из списка." }
+      }
+    }
+  }
+}
