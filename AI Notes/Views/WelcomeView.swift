@@ -5,7 +5,7 @@ struct WelcomeView: View {
     @Binding var showLogin: Bool
     @AppStorage("hasSeenWelcome") private var hasSeenWelcome = false
     @State private var animate = false
-    @State private var player: AVAudioPlayer?
+   // @State private var player: AVAudioPlayer?
 
     var body: some View {
         ZStack {
@@ -75,11 +75,11 @@ struct WelcomeView: View {
         }
         .onAppear {
             animate = true
-            playBackgroundMusic()
+           // playBackgroundMusic()
         }
     }
 
-    func playBackgroundMusic() {
+   /* func playBackgroundMusic() {
         if let url = Bundle.main.url(forResource: "welcome_music", withExtension: "mp3") {
             do {
                 player = try AVAudioPlayer(contentsOf: url)
@@ -90,5 +90,5 @@ struct WelcomeView: View {
                 print("Müzik çalınamadı: \(error.localizedDescription)")
             }
         }
-    }
+    }*/
 }
