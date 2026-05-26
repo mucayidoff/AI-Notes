@@ -20,4 +20,5 @@ struct PasswordHelper {
     static func verify(_ password: String, hashedPassword: String) -> Bool {
         return hash(password) == hashedPassword
     }
+    
 }
