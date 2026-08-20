@@ -39,6 +39,7 @@ struct MailView: UIViewControllerRepresentable {
 struct ProfileView: View {
     @ObservedObject var authVM: AuthViewModel
     @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("isGuestUser") private var isGuestUser = false
     @State private var showEditProfile = false
 
     @State private var showFeedback = false
@@ -48,76 +49,56 @@ struct ProfileView: View {
     @State private var showMailComposer = false
 
     private let developerEmail = "mucayidofficial@gmail.com"
-    private let developerPhone = "+996551909247"
-    private let developerWebsite = "https://maigroup.com"
+   // private let developerPhone = "+996551909247"
+   // private let developerWebsite = "https://maigroup.com"
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 16) {
-                    if let user = authVM.currentUser {
-                        // Kullanıcı bilgileri
+                    if isGuestUser {
+                        
                         Image(systemName: "person.crop.circle.fill")
                             .resizable()
                             .frame(width: 100, height: 100)
-                            .foregroundColor(.purple)
+                            .foregroundColor(.gray)
                             .padding(.top, 24)
-
-                        Text(user.name)
+                        
+                        Text("Guest")
                             .font(.title)
                             .fontWeight(.bold)
-
-                        Text(user.email)
+                        
+                        Text("Guest Mode")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .padding(.bottom, 8)
-
-                        Spacer()
-
-                        Button("Profili Düzenle") {
-                            showEditProfile = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.purple)
-                        .controlSize(.large)
-                        .frame(maxWidth: .infinity, alignment: .center)
-
+                        
                         NavigationLink(destination: LanguageSettingsView()) {
                             HStack {
                                 Image(systemName: "globe")
                                 Text("Dil")
+                                
                                 Spacer()
+                                
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.secondary)
                             }
                             .padding(12)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray5)))
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color(.systemGray5))
+                            )
                             .contentShape(Rectangle())
                         }
-
-                        Button(action: { showFeedback = true }) {
-                            HStack {
-                                Image(systemName: "bubble.left.and.exclamationmark")
-                                Text("Geri Bildirim Yap")
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(12)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray5)))
-                            .contentShape(Rectangle())
-                        }
-
+                        
                         Button("Çıkış Yap") {
                             logout()
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.red)
                         .controlSize(.large)
-                        .frame(maxWidth: .infinity, alignment: .center)
-
-                        Spacer()
-                    } else {
+                        
+                    } else if let user = authVM.currentUser {
                         Text("Kullanıcı bulunamadı.")
                             .foregroundColor(.gray)
                             .italic()
@@ -148,6 +129,7 @@ struct ProfileView: View {
 
     func logout() {
         authVM.logout()
+        isGuestUser = false
         isLoggedIn = false
     }
 
@@ -213,8 +195,8 @@ struct ProfileView: View {
                             .font(.headline)
                         VStack(alignment: .leading, spacing: 6) {
                             Text("E-posta: \(developerEmail)")
-                            Text("Telefon: \(developerPhone)")
-                            Text("Web: \(developerWebsite)")
+                            //Text("Telefon: \(developerPhone)")
+                           // Text("Web: \(developerWebsite)")
                                 .foregroundColor(.blue)
                         }
                     }

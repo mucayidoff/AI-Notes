@@ -4,6 +4,7 @@ import SwiftData
 struct UserLoginView: View {
     @Environment(\.modelContext) private var modelContext
     @AppStorage("isLoggedIn") private var isLoggedIn = false
+    @AppStorage("isGuestUser") private var isGuestUser = false
 
     @ObservedObject var authVM: AuthViewModel
     var onLoginSuccess: () -> Void
@@ -82,6 +83,7 @@ struct UserLoginView: View {
                         modelContext: modelContext
                     )
                     if ok {
+                        isGuestUser = false
                         isLoggedIn = true
                         onLoginSuccess()
                     } else {
@@ -105,6 +107,21 @@ struct UserLoginView: View {
                         .background(Color.gray)
                         .foregroundColor(.white)
                         .cornerRadius(12)
+                }
+                
+                Button {
+                    isGuestUser = true
+                    isLoggedIn = true
+                    onLoginSuccess()
+                } label: {
+                    Text("Guest Mode")
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(.systemGray5))
+                        .foregroundColor(.primary)
+                        .cornerRadius(12)
+                    
                 }
 
                 Spacer()
