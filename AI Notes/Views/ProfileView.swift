@@ -99,6 +99,82 @@ struct ProfileView: View {
                         .controlSize(.large)
                         
                     } else if let user = authVM.currentUser {
+                        
+                        Image(systemName: "person.crop.circle.fill")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.purple)
+                            .padding(.top, 24)
+
+                        Text(user.name)
+                            .font(.title)
+                            .fontWeight(.bold)
+
+                        Text(user.email)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 8)
+
+                        Spacer()
+
+                        Button("Profili Düzenle") {
+                            showEditProfile = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.purple)
+                        .controlSize(.large)
+                        .frame(maxWidth: .infinity, alignment: .center)
+
+                        NavigationLink(destination: LanguageSettingsView()) {
+                            HStack {
+                                Image(systemName: "globe")
+                                Text("Dil")
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color(.systemGray5))
+                            )
+                            .contentShape(Rectangle())
+                        }
+
+                        Button(action: {
+                            showFeedback = true
+                        }) {
+                            HStack {
+                                Image(systemName: "bubble.left.and.exclamationmark")
+                                Text("Geri Bildirim Yap")
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color(.systemGray5))
+                            )
+                            .contentShape(Rectangle())
+                        }
+
+                        Button("Çıkış Yap") {
+                            logout()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.red)
+                        .controlSize(.large)
+                        .frame(maxWidth: .infinity, alignment: .center)
+
+                        Spacer()
+
+                    } else {
+
                         Text("Kullanıcı bulunamadı.")
                             .foregroundColor(.gray)
                             .italic()
@@ -110,12 +186,14 @@ struct ProfileView: View {
             .navigationTitle("Profil")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showEditProfile = true
-                    } label: {
-                        Image(systemName: "gearshape")
+                    if !isGuestUser {
+                        Button {
+                            showEditProfile = true
+                        } label: {
+                            Image(systemName: "gearshape")
+                        }
+                        .accessibilityLabel("Profili Düzenle")
                     }
-                    .accessibilityLabel("Profili Düzenle")
                 }
             }
             .sheet(isPresented: $showEditProfile) {
