@@ -17,15 +17,15 @@ struct UserRegisterView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-                Text("Kayıt Ol")
+                Text("register_title")
                     .font(.largeTitle).bold()
                 
-                TextField("İsim", text: $name)
+                TextField("name_placeholder", text: $name)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                 
-                TextField("E-posta", text: $email)
+                TextField("email_placeholder", text: $email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
@@ -41,9 +41,9 @@ struct UserRegisterView: View {
                 HStack {
                     Group {
                         if isPasswordVisible {
-                            TextField("Şifre", text: $password)
+                            TextField("password_placeholder", text: $password)
                         } else {
-                            SecureField("Şifre", text: $password)
+                            SecureField("password_placeholder", text: $password)
                         }
                     }
                     Button(action: { isPasswordVisible.toggle() }) {
@@ -66,34 +66,34 @@ struct UserRegisterView: View {
                     let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
                     
                     guard !trimmedName.isEmpty else {
-                        errorMessage = "İsim gerekli"
+                        errorMessage = "error_name_required"
                         return
                     }
                     
                     guard !trimmedEmail.isEmpty else {
-                        errorMessage = "E-posta adresi gerekli"
+                        errorMessage = "error_email_required"
                         return
                     }
                     
                     // E-posta format kontrolü
                     guard trimmedEmail.contains("@") && trimmedEmail.contains(".") else {
-                        errorMessage = "Geçerli bir e-posta adresi girin"
+                        errorMessage = "error_invalid_email"
                         return
                     }
                     
                     guard !password.isEmpty else {
-                        errorMessage = "Şifre gerekli"
+                        errorMessage = "error_password_required"
                         return
                     }
                     
                     guard password.count >= 6 else {
-                        errorMessage = "Şifre en az 6 karakter olmalı"
+                        errorMessage = "error_password_min_6"
                         return
                     }
                     
                     // Şifre gücü kontrolü
                     guard password.count >= 8 || (password.rangeOfCharacter(from: .decimalDigits) != nil && password.rangeOfCharacter(from: .letters) != nil) else {
-                        errorMessage = "Şifre en az 8 karakter veya harf+rakam içermeli"
+                        errorMessage = "error_password_strength"
                         return
                     }
                     
@@ -110,7 +110,7 @@ struct UserRegisterView: View {
                         errorMessage = LocalizedStringKey(ErrorHandler.getErrorMessage(for: error))
                     }
                 } label: {
-                    Text("Kaydol")
+                    Text("register_submit")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -122,10 +122,10 @@ struct UserRegisterView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Kayıt")
+            .navigationTitle("register_navigation_title")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) { Button("İptal") { dismiss() } }
+                ToolbarItem(placement: .navigationBarLeading) { Button("cancel") { dismiss() } }
             }
         }
     }
