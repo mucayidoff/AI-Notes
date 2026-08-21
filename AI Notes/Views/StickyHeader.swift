@@ -12,7 +12,7 @@ struct StickyHeader: View {
     var body: some View {
         VStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("🧠 Hoş Geldin, \(userName)!")
+                Text("🧠 Welcome, \(userName)!")
                     .font(.title2)
                     .bold()
 
