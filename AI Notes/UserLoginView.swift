@@ -18,11 +18,11 @@ struct UserLoginView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-                Text("Giriş Yap")
+                Text("login_title")
                     .font(.largeTitle).bold()
                     .padding(.top)
 
-                TextField("E-posta", text: $email)
+                TextField("email_placeholder", text: $email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
@@ -38,9 +38,9 @@ struct UserLoginView: View {
                 HStack {
                     Group {
                         if isPasswordVisible {
-                            TextField("Şifre", text: $password)
+                            TextField("password_placeholder", text: $password)
                         } else {
-                            SecureField("Şifre", text: $password)
+                            SecureField("password_placeholder", text: $password)
                         }
                     }
                     Button(action: { isPasswordVisible.toggle() }) {
@@ -62,18 +62,18 @@ struct UserLoginView: View {
                     let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
                     
                     guard !trimmedEmail.isEmpty else {
-                        errorMessage = "E-posta adresi gerekli"
+                        errorMessage = "error_email_required"
                         return
                     }
                     
                     guard !password.isEmpty else {
-                        errorMessage = "Şifre gerekli"
+                        errorMessage = "error_password_required"
                         return
                     }
                     
                     // E-posta format kontrolü
                     guard trimmedEmail.contains("@") && trimmedEmail.contains(".") else {
-                        errorMessage = "Geçerli bir e-posta adresi girin"
+                        errorMessage = "error_invalid_email"
                         return
                     }
                     
@@ -87,10 +87,10 @@ struct UserLoginView: View {
                         isLoggedIn = true
                         onLoginSuccess()
                     } else {
-                        errorMessage = "E-posta veya şifre hatalı."
+                        errorMessage = "error_invalid_credentials"
                     }
                 } label: {
-                    Text("Giriş Yap")
+                    Text("login_button")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -100,7 +100,7 @@ struct UserLoginView: View {
                 }
 
                 Button { onRegisterRequest() } label: {
-                    Text("Kayıt Ol")
+                    Text("register_button")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -114,7 +114,7 @@ struct UserLoginView: View {
                     isLoggedIn = true
                     onLoginSuccess()
                 } label: {
-                    Text("Guest Mode")
+                    Text("continue_as_guest")
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
