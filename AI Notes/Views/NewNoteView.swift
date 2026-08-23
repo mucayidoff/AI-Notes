@@ -42,7 +42,7 @@ struct NewNoteView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 16) {
-                TextField(String(localized: "Note"), text: $title)
+                TextField("note_title_placeholder", text: $title)
                     .font(.body)
                     .textInputAutocapitalization(.sentences)
                     .focused($titleIsFocused)
@@ -53,7 +53,7 @@ struct NewNoteView: View {
 
                 ZStack(alignment: .topLeading) {
                     if content.isEmpty {
-                        Text(String(localized: "note content placeholder"))
+                        Text("note_content_placeholder")
                             .foregroundColor(.gray)
                             .padding(.horizontal, 18)
                             .padding(.vertical, 22)
@@ -75,7 +75,7 @@ struct NewNoteView: View {
                 Button(action: detectSuggestedTag) {
                     HStack {
                         Image(systemName: "wand.and.stars")
-                        Text(String(localized: "predict_tag"))
+                        Text("predict_tag")
                     }
                     .padding(12)
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray5)))
@@ -83,9 +83,16 @@ struct NewNoteView: View {
                 }
 
                 if !suggestedTag.isEmpty {
-                    Text(String(format: NSLocalizedString("predicted_tag_format", comment: "Predicted tag format"), suggestedTag))
-                        .font(.footnote)
-                        .foregroundColor(.gray)
+                    let localizedTag = String(localized: String.LocalizationValue(suggestedTag))
+
+                    Text(
+                        String(
+                            format: String(localized: "predicted_tag_format"),
+                            localizedTag
+                        )
+                    )
+                    .font(.footnote)
+                    .foregroundColor(.gray)
                 }
 
                 HStack(alignment: .top, spacing: 8) {
@@ -102,11 +109,11 @@ struct NewNoteView: View {
                         .padding(.vertical, 4)
                 }
 
-                Text(String(localized: "ai_summary_title"))
+                Text("ai_summary_title")
                     .font(.headline)
 
                 VStack(alignment: .leading, spacing: 6) {
-                    TextField(String(localized: "summary_placeholder"), text: $summary)
+                    TextField("summary_placeholder", text: $summary)
                         .onChange(of: summary) { _, newValue in
                             if newValue.count > summaryLimit {
                                 summary = String(newValue.prefix(summaryLimit))
@@ -131,7 +138,7 @@ struct NewNoteView: View {
                 Button {
                     autoSummarize()
                 } label: {
-                    Label(String(localized: "auto_summarize"), systemImage: "wand.and.stars")
+                    Label("auto_summarize", systemImage: "wand.and.stars")
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.purple)
@@ -143,7 +150,10 @@ struct NewNoteView: View {
                         requestMicPermissionIfNeeded()
                         requestSpeechPermissionIfNeeded()
                     } label: {
-                        Label(String(localized: "permission_check"), systemImage: hasMicPermission && hasSpeechPermission ? "checkmark.shield" : "shield")
+                        Label(
+                            "permission_check",
+                            systemImage: hasMicPermission && hasSpeechPermission ? "checkmark.shield" : "shield"
+                        )
                     }
                     .buttonStyle(.bordered)
                     .accessibilityLabel(String(localized: "permission_check"))
@@ -151,7 +161,15 @@ struct NewNoteView: View {
                     Button {
                         startSpeechRecognition()
                     } label: {
-                        Label(isRecording ? String(localized: "recording_in_progress") : String(localized: "start"), systemImage: isRecording ? "waveform" : "mic")
+                        Label {
+                            if isRecording {
+                                Text("recording_in_progress")
+                            } else {
+                                Text("start")
+                            }
+                        } icon: {
+                            Image(systemName: isRecording ? "waveform" : "mic")
+                        }
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.purple)
@@ -161,7 +179,7 @@ struct NewNoteView: View {
                     Button {
                         stopSpeechRecognition()
                     } label: {
-                        Label(String(localized: "stop"), systemImage: "stop.fill")
+                        Label("stop", systemImage: "stop.fill")
                     }
                     .buttonStyle(.bordered)
                     .disabled(!isRecording)
@@ -171,8 +189,7 @@ struct NewNoteView: View {
                 Spacer()
 
                 Button(action: saveNote) {
-                    Label(String(localized: "save"), systemImage: "square.and.arrow.down")
-                        .frame(maxWidth: .infinity)
+                    Label("save", systemImage: "square.and.arrow.down")
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.purple)
@@ -181,7 +198,11 @@ struct NewNoteView: View {
                 .accessibilityLabel(String(localized: "save"))
             }
             .padding()
-            .navigationTitle(existingNote == nil ? String(localized: "") : String(localized: "edit_note_title"))
+            .navigationTitle(
+                existingNote == nil
+                ? LocalizedStringKey("new_note_title")
+                : LocalizedStringKey("edit_note_title")
+            )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -269,10 +290,25 @@ struct NewNoteView: View {
     // MARK: - NLP (örnekler)
     private func detectSuggestedTag() {
         let lower = content.lowercased()
-        if lower.contains("toplantı") { suggestedTag = "İş" }
-        else if lower.contains("kitap") { suggestedTag = "Kişisel" }
-        else if lower.contains("ders") { suggestedTag = "Okul" }
-        else { suggestedTag = "Fikirler" }
+
+        if lower.contains("toplantı") ||
+            lower.contains("meeting") ||
+            lower.contains("работа") {
+            suggestedTag = "work_tag"
+
+        } else if lower.contains("kitap") ||
+                    lower.contains("book") ||
+                    lower.contains("книга") {
+            suggestedTag = "personal_tag"
+
+        } else if lower.contains("ders") ||
+                    lower.contains("lesson") ||
+                    lower.contains("урок") {
+            suggestedTag = "school_tag"
+
+        } else {
+            suggestedTag = "ideas_tag"
+        }
     }
 
     private func stopSpeechRecognition() {

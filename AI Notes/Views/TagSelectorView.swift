@@ -18,7 +18,7 @@ struct TagSelectorView: View {
             HStack {
                 ForEach(tags, id: \.self) { tag in
                     ZStack(alignment: .topTrailing) {
-                        Text(verbatim: tag)
+                        Text(LocalizedStringKey(tag))
                             .padding(.horizontal, 14)
                             .padding(.vertical, 6)
                             .background(selectedTag == tag ? Color.selectedForTag(tag) : Color.unselectedBackgroundForTag(tag))

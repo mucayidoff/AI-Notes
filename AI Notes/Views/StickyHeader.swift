@@ -12,11 +12,9 @@ struct StickyHeader: View {
     var body: some View {
         VStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("🧠 Welcome, \(userName)!")
-                    .font(.title2)
-                    .bold()
+                Text("welcome_prefix") + Text(" \(userName)!")
 
-                Text("Bugünkü notlarını yönet 👇")
+                Text("manage_today_notes")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -25,7 +23,7 @@ struct StickyHeader: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.gray)
-                TextField("Notlarda ara...", text: $searchText)
+                TextField("search_notes", text: $searchText)
                     .autocapitalization(.none)
             }
             .padding(.horizontal, 12)
@@ -37,11 +35,19 @@ struct StickyHeader: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     ForEach(tags, id: \.self) { tag in
-                        Text(tag)
+                        Text(LocalizedStringKey(tag))
                             .padding(.horizontal, 14)
                             .padding(.vertical, 6)
-                            .background(selectedTag == tag ? Color.selectedForTag(tag) : Color.unselectedBackgroundForTag(tag))
-                            .foregroundColor(selectedTag == tag ? .white : Color.forTag(tag))
+                            .background(
+                                selectedTag == tag
+                                ? Color.selectedForTag(tag)
+                                : Color.unselectedBackgroundForTag(tag)
+                            )
+                            .foregroundColor(
+                                selectedTag == tag
+                                ? .white
+                                : Color.forTag(tag)
+                            )
                             .cornerRadius(16)
                             .onTapGesture {
                                 selectedTag = tag

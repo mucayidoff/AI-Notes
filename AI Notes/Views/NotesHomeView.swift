@@ -12,6 +12,7 @@ struct NotesHomeView: View {
     @StateObject private var tagStore = TagStore()
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var authVM: AuthViewModel
+    @Environment(\.locale) private var locale
 
     @Query(sort: \Note.createdDate, order: .reverse)
     private var allNotes: [Note]
@@ -32,7 +33,7 @@ struct NotesHomeView: View {
                             StickyHeader(
                                 searchText: $searchText,
                                 selectedTag: $tagStore.selectedTag,
-                                userName: authVM.currentUser?.name ?? String(localized: "user_fallback_name"),
+                                userName: authVM.currentUser?.name ?? localizedUserName,
                                 tags: tagStore.tags
                             )
                             NotesListView(notes: filteredNotes())
@@ -42,7 +43,8 @@ struct NotesHomeView: View {
                     .tag(AppTab.list)
 
                     TaskView().tag(AppTab.tasks)
-                    Text(String(localized: "mic view title")).tag(AppTab.mic)
+                    Text("mic_view_title")
+                        .tag(AppTab.mic)
                     ProfileView(authVM: authVM).tag(AppTab.profile)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -70,9 +72,21 @@ struct NotesHomeView: View {
                         Image(systemName: "rectangle.portrait.and.arrow.right")
                             .foregroundColor(.red)
                     }
+                    .accessibilityLabel("logout")
                 }
             }
             .toolbar(.hidden, for: .navigationBar)
+        }
+    }
+    
+    private var localizedUserName: String {
+        switch locale.language.languageCode?.identifier {
+        case "tr":
+            return "Kullanıcı"
+        case "ru":
+            return "Пользователь"
+        default:
+            return "User"
         }
     }
 

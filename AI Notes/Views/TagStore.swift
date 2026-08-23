@@ -8,7 +8,14 @@ final class TagStore: ObservableObject {
     @Published var selectedTag: String = ""
 
     private let userDefaultsKey = "userTags"
-    private let defaultTags = ["work_tag", "personal_tag", "school_tag", "ideas_tag", "education_tag"]
+    private let defaultTags = [
+        "all_tag",
+        "work_tag",
+        "personal_tag",
+        "school_tag",
+        "ideas_tag",
+        "education_tag"
+    ]
 
     init() {
         loadTags()

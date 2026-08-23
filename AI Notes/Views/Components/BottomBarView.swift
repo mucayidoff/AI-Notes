@@ -17,6 +17,7 @@ struct BottomBarWithFABView: View {
                     .font(.title2)
                     .foregroundColor(selectedTab == .list ? .purple : .primary)
             }
+            .accessibilityLabel("notes_tab")
 
             // Mikrofon butonu
             Button(action: onMicTap) {
@@ -24,6 +25,7 @@ struct BottomBarWithFABView: View {
                     .font(.title2)
                     .foregroundColor(selectedTab == .mic ? .purple : .primary)
             }
+            .accessibilityLabel("microphone_tab")
 
             // Ortadaki büyük + butonu
             Button(action: onPlusTap) {
@@ -31,6 +33,7 @@ struct BottomBarWithFABView: View {
                     .font(.system(size: 44))
                     .foregroundColor(.purple)
             }
+            .accessibilityLabel("new_note_button")
 
             // Profil butonu
             Button(action: onProfileTap) {
@@ -38,6 +41,7 @@ struct BottomBarWithFABView: View {
                     .font(.title2)
                     .foregroundColor(selectedTab == .profile ? .purple : .primary)
             }
+            .accessibilityLabel("profile_tab")
         }
         .padding()
         .background(Color(.systemBackground).opacity(0.95))

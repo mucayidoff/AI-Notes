@@ -23,7 +23,7 @@ struct NotesListView: View {
                                 .foregroundColor(.secondary)
                         }
                         HStack {
-                            Text(note.tag)
+                            Text(LocalizedStringKey(note.tag))
                                 .font(.caption)
                                 .foregroundColor(Color.forTag(note.tag))
                                 .padding(.horizontal, 8)
@@ -32,10 +32,18 @@ struct NotesListView: View {
                                 .cornerRadius(8)
                             Spacer()
                             let displayDate = note.updatedDate ?? note.createdDate
-                            let label = note.updatedDate == nil ? "Oluşturuldu:" : "Güncellendi:"
-                            Text("\(label) \(displayDate.formatted(date: .abbreviated, time: .shortened))")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+
+                            HStack(spacing: 4) {
+                                if note.updatedDate == nil {
+                                    Text("created_label")
+                                } else {
+                                    Text("updated_label")
+                                }
+
+                                Text(displayDate.formatted(date: .abbreviated, time: .shortened))
+                            }
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                         }
                     }
                     .padding(.horizontal)
