@@ -29,7 +29,7 @@ struct NoteDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                TextField(String(localized: "note_title_placeholder"), text: $title)
+                TextField("note_title_placeholder", text: $title)
                     .font(.title2)
                     .padding()
                     .background(Color(.systemGray6))
@@ -43,7 +43,8 @@ struct NoteDetailView: View {
 
                 if showAIResult {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(String(localized: "ai_summary_title")).font(.headline)
+                        Text("ai_summary_title")
+                            .font(.headline)
                         Text(aiSummary).font(.subheadline).foregroundColor(.secondary)
                     }
                     .padding()
@@ -53,7 +54,7 @@ struct NoteDetailView: View {
 
                 HStack(spacing: 12) {
                     Button(action: generateAISummary) {
-                        Label(String(localized: "ai_summarize"), systemImage: "sparkles")
+                        Label("ai_summarize", systemImage: "sparkles")
                             .padding()
                             .background(Color.purple.opacity(0.2))
                             .cornerRadius(12)
@@ -64,11 +65,11 @@ struct NoteDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(String(localized: "note_detail_title"))
+        .navigationTitle("note_detail_title")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(String(localized: "save")) {
+                Button("save") {
                     note.title = title
                     note.content = content
                     if note.summary.isEmpty { note.summary = String(content.prefix(80)) }
@@ -92,7 +93,7 @@ struct NoteDetailView: View {
                         errorState.show(String(localized: "error_delete_failed") + ": \(error.localizedDescription)")
                     }
                 } label: {
-                    Label(String(localized: "delete"), systemImage: "trash")
+                    Label("delete", systemImage: "trash")
                         .foregroundColor(.red)
                 }
             }
@@ -101,7 +102,7 @@ struct NoteDetailView: View {
 
     private func generateAISummary() {
         withAnimation {
-            aiSummary = "Bu notun özeti: \(content.prefix(80))..."
+            aiSummary = "\(String(localized: "ai_summary_prefix")) \(content.prefix(80))..."
             showAIResult = true
         }
     }
