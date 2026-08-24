@@ -17,7 +17,7 @@ struct ReminderView: View {
         NavigationView {
             VStack(spacing: 16) {
                 HStack {
-                    TextField("Yeni hatırlatma...", text: $newReminder)
+                    TextField("new_reminder_placeholder", text: $newReminder)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
 
                     Button(action: addReminder) {
@@ -25,11 +25,12 @@ struct ReminderView: View {
                             .font(.title2)
                             .foregroundColor(.purple)
                     }
+                    .accessibilityLabel("add_reminder")
                 }
                 .padding(.horizontal)
 
                 if reminders.isEmpty {
-                    Text("Henüz hatırlatma yok.")
+                    Text("no_reminders")
                         .foregroundColor(.gray)
                         .italic()
                 } else {
@@ -43,7 +44,7 @@ struct ReminderView: View {
 
                 Spacer()
             }
-            .navigationTitle("Hatırlatıcılar")
+            .navigationTitle("reminders_title")
         }
     }
 

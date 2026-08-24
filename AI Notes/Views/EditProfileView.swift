@@ -15,17 +15,17 @@ struct EditProfileView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     if authVM.currentUser != nil {
-                        Text("Bilgiler")
+                        Text("profile_info")
                             .font(.headline)
 
-                        TextField("Ad", text: $name)
+                        TextField("name_placeholder", text: $name)
                             .textInputAutocapitalization(.words)
                             .autocorrectionDisabled(false)
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(12)
 
-                        TextField("E-posta", text: $email)
+                        TextField("email_placeholder", text: $email)
                             .keyboardType(.emailAddress)
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled(true)
@@ -33,22 +33,22 @@ struct EditProfileView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(12)
 
-                        SecureField("Şifre", text: $password)
+                        SecureField("password_placeholder", text: $password)
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(12)
 
                         HStack(spacing: 12) {
-                            Button("Kaydet") { saveChanges() }
+                            Button("save") { saveChanges() }
                                 .buttonStyle(.borderedProminent)
                                 .tint(.purple)
                                 .controlSize(.large)
-                            Button("İptal") { showEdit = false }
+                            Button("cancel") { showEdit = false }
                                 .buttonStyle(.bordered)
                                 .tint(.secondary)
                         }
                     } else {
-                        Text("⚠️ Kullanıcı bilgisi yüklenemedi.")
+                        Text("profile_user_load_failed")
                             .foregroundColor(.red)
                             .padding()
                             .background(Color(.systemGray6))
@@ -58,14 +58,14 @@ struct EditProfileView: View {
                 .padding(.horizontal)
                 .padding(.top, 24)
             }
-            .navigationTitle("Profili Düzenle")
+            .navigationTitle("edit_profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") { showEdit = false }
+                    Button("cancel") { showEdit = false }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Kaydet") { saveChanges() }
+                    Button("save") { saveChanges() }
                         .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }

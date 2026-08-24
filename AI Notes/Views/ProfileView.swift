@@ -90,6 +90,23 @@ struct ProfileView: View {
                             )
                             .contentShape(Rectangle())
                         }
+                        NavigationLink(destination: ReminderView()) {
+                            HStack {
+                                Image(systemName: "bell")
+                                Text("reminders_title")
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color(.systemGray5))
+                            )
+                            .contentShape(Rectangle())
+                        }
                         
                         Button("logout") {
                             logout()

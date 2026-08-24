@@ -15,13 +15,13 @@ struct TaskView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Text("📝 Görevler")
+            Text("tasks_header")
                 .font(.largeTitle)
                 .bold()
                 .padding(.top)
 
             HStack {
-                TextField("Yeni görev ekle...", text: $newTask)
+                TextField("new_task_placeholder", text: $newTask)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
 
                 Button(action: addTask) {
@@ -29,12 +29,13 @@ struct TaskView: View {
                         .font(.title2)
                         .foregroundColor(.blue)
                 }
+                .accessibilityLabel("add_task")
                 .disabled(newTask.trimmingCharacters(in: .whitespaces).isEmpty)
             }
             .padding(.horizontal)
 
             if tasks.isEmpty {
-                Text("Henüz görev eklenmedi.")
+                Text("no_tasks")
                     .foregroundColor(.gray)
                     .padding()
             } else {
@@ -49,7 +50,7 @@ struct TaskView: View {
             Spacer()
         }
         .padding(.top)
-        .navigationTitle("Görevler")
+        .navigationTitle("tasks_title")
         .navigationBarTitleDisplayMode(.inline)
     }
 
