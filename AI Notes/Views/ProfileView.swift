@@ -64,11 +64,11 @@ struct ProfileView: View {
                             .foregroundColor(.gray)
                             .padding(.top, 24)
                         
-                        Text("Guest")
+                        Text("guest_user")
                             .font(.title)
                             .fontWeight(.bold)
-                        
-                        Text("Guest Mode")
+
+                        Text("guest_mode")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .padding(.bottom, 8)
@@ -76,7 +76,7 @@ struct ProfileView: View {
                         NavigationLink(destination: LanguageSettingsView()) {
                             HStack {
                                 Image(systemName: "globe")
-                                Text("Dil")
+                                Text("language")
                                 
                                 Spacer()
                                 
@@ -91,7 +91,7 @@ struct ProfileView: View {
                             .contentShape(Rectangle())
                         }
                         
-                        Button("Çıkış Yap") {
+                        Button("logout") {
                             logout()
                         }
                         .buttonStyle(.borderedProminent)
@@ -117,9 +117,10 @@ struct ProfileView: View {
 
                         Spacer()
 
-                        Button("Profili Düzenle") {
+                        Button("edit_profile") {
                             showEditProfile = true
                         }
+                        .accessibilityLabel("edit_profile")
                         .buttonStyle(.borderedProminent)
                         .tint(.purple)
                         .controlSize(.large)
@@ -128,7 +129,7 @@ struct ProfileView: View {
                         NavigationLink(destination: LanguageSettingsView()) {
                             HStack {
                                 Image(systemName: "globe")
-                                Text("Dil")
+                                Text("language")
 
                                 Spacer()
 
@@ -148,7 +149,7 @@ struct ProfileView: View {
                         }) {
                             HStack {
                                 Image(systemName: "bubble.left.and.exclamationmark")
-                                Text("Geri Bildirim Yap")
+                                Text("send_feedback")
 
                                 Spacer()
 
@@ -175,7 +176,7 @@ struct ProfileView: View {
 
                     } else {
 
-                        Text("Kullanıcı bulunamadı.")
+                        Text("user_not_found")
                             .foregroundColor(.gray)
                             .italic()
                     }
@@ -183,7 +184,7 @@ struct ProfileView: View {
                 .padding(.horizontal)
                 .padding(.top, 24)
             }
-            .navigationTitle("Profil")
+            .navigationTitle("profile_title")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if !isGuestUser {
@@ -217,7 +218,7 @@ struct ProfileView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Group {
-                        Text("Geri Bildiriminiz")
+                        Text("feedback_your_feedback")
                             .font(.headline)
                         TextEditor(text: $feedbackText)
                             .frame(minHeight: 120)
@@ -230,17 +231,17 @@ struct ProfileView: View {
 
                     Group {
                         HStack {
-                            Text("Ekran Görüntüleri / Fotoğraflar")
+                            Text("feedback_images")
                                 .font(.headline)
                             Spacer()
                             Button(action: { showImagePicker = true }) {
-                                Label("Ekle", systemImage: "plus")
+                                Label("add", systemImage: "plus")
                             }
-                            .accessibilityLabel("Görsel Ekle")
+                            .accessibilityLabel("add_image")
                         }
 
                         if selectedImages.isEmpty {
-                            Text("Henüz ekli görsel yok.")
+                            Text("no_images_added")
                                 .foregroundColor(.secondary)
                         } else {
                             ScrollView(.horizontal, showsIndicators: false) {
@@ -269,10 +270,13 @@ struct ProfileView: View {
                     }
 
                     Group {
-                        Text("Geliştirici İletişim Bilgileri")
+                        Text("developer_contact")
                             .font(.headline)
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("E-posta: \(developerEmail)")
+                            HStack(spacing: 4) {
+                                Text("email_label")
+                                Text(developerEmail)
+                            }
                             //Text("Telefon: \(developerPhone)")
                            // Text("Web: \(developerWebsite)")
                                 .foregroundColor(.blue)
@@ -291,7 +295,7 @@ struct ProfileView: View {
                             }
                         }
                     }) {
-                        Text("Gönder")
+                        Text("send")
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
@@ -302,14 +306,16 @@ struct ProfileView: View {
                 .padding()
                 .padding(.bottom, 8)
             }
-            .navigationTitle("Geri Bildirim")
+            .navigationTitle("feedback_title")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Kapat") { showFeedback = false }
-                        .accessibilityLabel("Kapat")
+                    Button("close") {
+                        showFeedback = false
+                    }
+                    .accessibilityLabel("close")
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Gönder") {
+                    Button("send") {
                         if MFMailComposeViewController.canSendMail() {
                             showMailComposer = true
                         } else {
@@ -325,7 +331,7 @@ struct ProfileView: View {
             }
             .sheet(isPresented: $showMailComposer) {
                 MailView(
-                    subject: "Geri Bildirim",
+                    subject: String(localized: "feedback_mail_subject"),
                     body: feedbackText,
                     recipients: [developerEmail],
                     attachments: selectedImages
