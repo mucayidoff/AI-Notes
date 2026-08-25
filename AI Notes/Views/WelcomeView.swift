@@ -27,7 +27,7 @@ struct WelcomeView: View {
                     .scaleEffect(animate ? 1.2 : 0.8)
                     .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: animate)
 
-                Text("AI Notes'a Hoş Geldin!")
+                Text("welcome_title")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
@@ -36,7 +36,7 @@ struct WelcomeView: View {
                     .scaleEffect(animate ? 1 : 0.8)
                     .animation(.easeIn(duration: 1).delay(0.3), value: animate)
 
-                Text("Notları keşfet, fikirleri büyüt!")
+                Text("welcome_subtitle")
                     .font(.headline)
                     .foregroundColor(.white.opacity(0.8))
                     .multilineTextAlignment(.center)
@@ -56,7 +56,7 @@ struct WelcomeView: View {
                         showLogin = true
                     }
                 }) {
-                    Text("Başla 🚀")
+                    Text("get_started")
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
