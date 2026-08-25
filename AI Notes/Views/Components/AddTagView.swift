@@ -16,12 +16,12 @@ struct AddTagView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                TextField("Yeni etiket adı", text: $newTagText)
+                TextField("new_tag_name", text: $newTagText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Renk Seç")
+                    Text("select_color")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
 
@@ -38,11 +38,17 @@ struct AddTagView: View {
                         }
                     }
 
-                    ColorPicker("Daha fazla renk", selection: Binding(get: { selectedColor ?? Color.suggestedColor(for: newTagText) }, set: { selectedColor = $0 }))
+                    ColorPicker(
+                        "more_colors",
+                        selection: Binding(
+                            get: { selectedColor ?? Color.suggestedColor(for: newTagText) },
+                            set: { selectedColor = $0 }
+                        )
+                    )
                 }
                 .padding(.horizontal)
 
-                Button("Ekle") {
+                Button("add") {
                     let trimmed = newTagText.trimmingCharacters(in: .whitespacesAndNewlines)
                     if !trimmed.isEmpty {
                         onAdd(trimmed)
@@ -60,10 +66,10 @@ struct AddTagView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Yeni Etiket Ekle")
+            .navigationTitle("add_new_tag")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("İptal") {
+                    Button("cancel") {
                         dismiss()
                     }
                 }

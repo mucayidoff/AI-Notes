@@ -181,7 +181,7 @@ struct ProfileView: View {
                             .contentShape(Rectangle())
                         }
 
-                        Button("Çıkış Yap") {
+                        Button("logout") {
                             logout()
                         }
                         .buttonStyle(.borderedProminent)
