@@ -11,23 +11,15 @@ struct LanguageSettingsView: View {
                     .padding(.top, 4)
 
                 Picker("language_picker_title", selection: $appLanguage) {
-                                    
-                                    Text("Sistem Dili")
-                                        .tag("system")
-                                    
-                                    Text("Türkçe")
-                                        .tag("tr")
-                                    
-                                    Text("English")
-                                        .tag("en")
-                                    
-                                    Text("Русский")
-                                        .tag("ru")
-                                }
+                    Text("system_language").tag("system")
+                    Text("Türkçe").tag("tr")
+                    Text("English").tag("en")
+                    Text("Русский").tag("ru")
+                }
+                .pickerStyle(.segmented)
                 .pickerStyle(.segmented)
 
-                Text("Değişiklikler anında uygulanır. Bazı metinler için uygulamayı yeniden başlatmanız gerekebilir.")
-                    .font(.footnote)
+                Text("language_change_info")                    .font(.footnote)
                     .foregroundColor(.secondary)
                     .padding(.top, 8)
             }

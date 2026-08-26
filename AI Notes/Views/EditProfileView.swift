@@ -8,7 +8,7 @@ struct EditProfileView: View {
 
     @State private var name = ""
     @State private var email = ""
-    @State private var password = ""
+    @State private var showChangePassword = false
 
     var body: some View {
         NavigationView {
@@ -33,10 +33,30 @@ struct EditProfileView: View {
                             .background(Color(.systemGray6))
                             .cornerRadius(12)
 
-                        SecureField("password_placeholder", text: $password)
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .cornerRadius(12)
+                        
+                        
+                        NavigationLink {
+                            ChangePasswordView(
+                                authVM: authVM,
+                            )
+                        } label: {
+                            HStack {
+                                Image(systemName: "lock.rotation")
+                                Text("change_password_title")
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color(.systemGray5))
+                            )
+                            .contentShape(Rectangle())
+                        }
+                        
 
                         HStack(spacing: 12) {
                             Button("save") { saveChanges() }
@@ -73,8 +93,7 @@ struct EditProfileView: View {
                 if let user = authVM.currentUser {
                     name = user.name
                     email = user.email
-                    password = user.password
-                }
+                                    }
             }
         }
     }
@@ -84,9 +103,7 @@ struct EditProfileView: View {
 
         user.name = name
         user.email = email
-        if !password.isEmpty {
-            user.password = PasswordHelper.hash(password)
-        }
+        
         
         do {
             try modelContext.save()

@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>NSMicrophoneInjectionUsageDescription</key>
-	<string>Konuşmaları yazıya dökmek için konuşma tanıma erişimi gereklidir.</string>
+	<string>Speech recognition access is required to transcribe the conversations.</string>
 	<key>Privacy - NSMicrophoneUsageDescription</key>
-	<string>Mikrofon: Ses kaydı için mikrofon erişimi gerekiyor.</string>
+	<string>Microphone: Microphone access is required for audio recording.</string>
 	<key>Privacy - NSSpeechRecognitionUsageDescription</key>
-	<string>Konuşma Tanıma: Konuşmalarınızı metne dönüştürmek için izin gerekiyor.</string>
+	<string>Speech Recognition: Permission is required to convert your speech to text.</string>
 </dict>
 </plist>

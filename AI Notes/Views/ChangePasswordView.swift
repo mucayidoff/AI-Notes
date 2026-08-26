@@ -11,8 +11,8 @@ import SwiftData
 struct ChangePasswordView: View {
     @Environment(\.modelContext) private var modelContext
     @ObservedObject var authVM: AuthViewModel
-    @Binding var showChangePassword: Bool
-
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var oldPassword = ""
     @State private var newPassword = ""
     @State private var confirmPassword = ""
@@ -21,13 +21,13 @@ struct ChangePasswordView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Mevcut Şifre")) {
-                    SecureField("Eski Şifre", text: $oldPassword)
+                Section(header: Text("current_password_section")) {
+                    SecureField("old_password_placeholder", text: $oldPassword)
                 }
 
-                Section(header: Text("Yeni Şifre")) {
-                    SecureField("Yeni Şifre", text: $newPassword)
-                    SecureField("Yeni Şifre (Tekrar)", text: $confirmPassword)
+                Section(header: Text("new_password_section")) {
+                    SecureField("new_password_placeholder", text: $newPassword)
+                    SecureField("confirm_new_password_placeholder", text: $confirmPassword)
                 }
 
                 if let errorMessage {
@@ -37,43 +37,43 @@ struct ChangePasswordView: View {
                 }
 
                 Section {
-                    Button("Şifreyi Güncelle") {
+                    Button("update_password") {
                         updatePassword()
                     }
 
-                    Button("İptal", role: .cancel) {
-                        showChangePassword = false
+                    Button("cancel", role: .cancel) {
+                        dismiss()
                     }
                 }
             }
-            .navigationTitle("Şifre Değiştir")
+            .navigationTitle("change_password_title")
         }
     }
 
     func updatePassword() {
         guard let user = authVM.currentUser else {
-            errorMessage = "Kullanıcı bulunamadı."
+            errorMessage = "user_not_found"
             return
         }
 
         // Eski şifreyi doğrula (hash'lenmiş şifre ile karşılaştır)
         guard PasswordHelper.verify(oldPassword, hashedPassword: user.password) else {
-            errorMessage = "Eski şifre yanlış."
+            errorMessage = "error_old_password_wrong"
             return
         }
 
         guard !newPassword.isEmpty else {
-            errorMessage = "Yeni şifre boş olamaz."
+            errorMessage = "error_new_password_empty"
             return
         }
 
         guard newPassword.count >= 6 else {
-            errorMessage = "Yeni şifre en az 6 karakter olmalı."
+            errorMessage = "error_new_password_min_6"
             return
         }
 
         guard newPassword == confirmPassword else {
-            errorMessage = "Yeni şifreler eşleşmiyor."
+            errorMessage = "error_passwords_do_not_match"
             return
         }
 
@@ -82,9 +82,14 @@ struct ChangePasswordView: View {
         
         do {
             try modelContext.save()
-            showChangePassword = false
+            dismiss()
         } catch {
-            errorMessage = LocalizedStringKey(String(format: NSLocalizedString("Şifre güncellenemedi: %@", comment: ""), error.localizedDescription))
+            errorMessage = LocalizedStringKey(
+                String(
+                    format: String(localized: "error_password_update_failed_format"),
+                    error.localizedDescription
+                )
+            )
         }
     }
 }
