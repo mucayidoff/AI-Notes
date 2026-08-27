@@ -12,7 +12,12 @@ struct TagSelectorView: View {
     @State private var deletingTag: String? = nil
     @State private var showDeleteConfirm: Bool = false
     @State private var pendingDeleteTag: String? = nil
-
+    
+    @State private var colorTag: String? = nil
+    @State private var selectedColor: Color = .purple
+    @State private var showColorPicker = false
+    
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
@@ -30,10 +35,11 @@ struct TagSelectorView: View {
                             }
                             .contextMenu {
                                 Button {
-                                    // Trigger color change sheet via notification
-                                    NotificationCenter.default.post(name: Notification.Name("TagSelectorChangeColor"), object: tag)
+                                    colorTag = tag
+                                    selectedColor = Color.forTag(tag)
+                                    showColorPicker = true
                                 } label: {
-                                    Label(String(localized: "change_color"), systemImage: "paintpalette")
+                                    Label("change_color", systemImage: "paintpalette")
                                 }
                             }
 
@@ -52,6 +58,50 @@ struct TagSelectorView: View {
                 }
             }
         }
+        
+        .sheet(isPresented: $showColorPicker) {
+            NavigationView {
+                VStack(spacing: 20) {
+
+                    if let tag = colorTag {
+                        Text(LocalizedStringKey(tag))
+                            .font(.headline)
+
+                        ColorPicker(
+                            "select_color",
+                            selection: $selectedColor,
+                            supportsOpacity: false
+                        )
+                        .padding()
+
+                        Button("save") {
+                            if let tag = colorTag {
+                                Color.setUserColor(selectedColor, for: tag)
+                            }
+
+                            showColorPicker = false
+                            colorTag = nil
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.purple)
+                    }
+
+                    Spacer()
+                }
+                .padding()
+                .navigationTitle("change_color")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("cancel") {
+                            showColorPicker = false
+                            colorTag = nil
+                        }
+                    }
+                }
+            }
+        }
+        
         .alert(String(localized: "delete_tag_confirm"), isPresented: $showDeleteConfirm) {
             Button(String(localized: "delete"), role: .destructive) {
                 guard let tag = pendingDeleteTag else { return }

@@ -19,6 +19,7 @@ struct NewNoteView: View {
     @State private var title = ""
     @State private var content = ""
     @State private var summary = ""
+    @State private var speechBaseContent = ""
     @State private var isSummarizing = false
     @State private var detectedLanguage: String = ""
     @State private var keywords: [String] = []
@@ -396,8 +397,14 @@ struct NewNoteView: View {
             recognitionTask = speechRecognizer?.recognitionTask(with: speechRequest!) { result, error in
                 if let result = result {
                     let transcript = result.bestTranscription.formattedString
-                    // Basitçe içeriğe ekleyelim
-                    self.content = self.content + (self.content.isEmpty ? "" : " ") + transcript
+
+                    DispatchQueue.main.async {
+                        if self.speechBaseContent.isEmpty {
+                            self.content = transcript
+                        } else {
+                            self.content = self.speechBaseContent + " " + transcript
+                        }
+                    }
                 }
                 if error != nil || (result?.isFinal ?? false) {
                     stopSpeechRecognition()
