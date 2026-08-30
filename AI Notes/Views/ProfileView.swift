@@ -37,12 +37,17 @@ struct MailView: UIViewControllerRepresentable {
 }
 
 struct ProfileView: View {
+    
+    
     @ObservedObject var authVM: AuthViewModel
+    @Environment(\.modelContext) private var modelContext
     @AppStorage("isLoggedIn") private var isLoggedIn = false
     @AppStorage("isGuestUser") private var isGuestUser = false
     @State private var showEditProfile = false
-
     @State private var showFeedback = false
+    @State private var showDeleteAccountAlert = false
+    @State private var showGuestDeleteMessage = false
+    
     @State private var feedbackText: String = ""
     @State private var selectedImages: [UIImage] = []
     @State private var showImagePicker = false
@@ -107,6 +112,26 @@ struct ProfileView: View {
                             )
                             .contentShape(Rectangle())
                         }
+                        
+                        
+                        Button(role: .destructive) {
+                            showGuestDeleteMessage = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "trash")
+                                Text("delete_account")
+                                Spacer()
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.red.opacity(0.1))
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundColor(.red)
+                        
                         
                         Button("logout") {
                             logout()
@@ -181,6 +206,25 @@ struct ProfileView: View {
                             .contentShape(Rectangle())
                         }
 
+                        Button(role: .destructive) {
+                            showDeleteAccountAlert = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "trash")
+                                Text("delete_account")
+                                Spacer()
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.red.opacity(0.1))
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundColor(.red)
+                        
+                        
                         Button("logout") {
                             logout()
                         }
@@ -220,6 +264,28 @@ struct ProfileView: View {
             .sheet(isPresented: $showFeedback) {
                 FeedbackSheet
             }
+            
+            .alert(
+                "guest_delete_account_title",
+                isPresented: $showGuestDeleteMessage
+            ) {
+                Button("ok", role: .cancel) { }
+            } message: {
+                Text("guest_delete_account_message")
+            }
+            
+            .alert(
+                "delete_account_title",
+                isPresented: $showDeleteAccountAlert
+            ) {
+                Button("cancel", role: .cancel) { }
+
+                Button("delete_account", role: .destructive) {
+                    deleteAccount()
+                }
+            } message: {
+                Text("delete_account_message")
+            }
         }
     }
 
@@ -227,6 +293,18 @@ struct ProfileView: View {
         authVM.logout()
         isGuestUser = false
         isLoggedIn = false
+    }
+    
+    func deleteAccount() {
+        do {
+            try authVM.deleteAccount(modelContext: modelContext)
+
+            isGuestUser = false
+            isLoggedIn = false
+
+        } catch {
+            print("❌ Account deletion error: \(error.localizedDescription)")
+        }
     }
 
     @ViewBuilder
@@ -357,6 +435,7 @@ struct ProfileView: View {
             .sheet(isPresented: $showImagePicker) {
                 ImagePicker(images: $selectedImages)
             }
+            
         }
     }
 }

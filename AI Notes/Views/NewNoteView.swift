@@ -160,7 +160,7 @@ struct NewNoteView: View {
                     .accessibilityLabel(String(localized: "permission_check"))
 
                     Button {
-                        startSpeechRecognition()
+                        startRecordingFlow()
                     } label: {
                         Label {
                             if isRecording {
@@ -174,8 +174,12 @@ struct NewNoteView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.purple)
-                    .disabled(!hasMicPermission || !hasSpeechPermission || isRecording)
-                    .accessibilityLabel(isRecording ? String(localized: "recording_in_progress") : String(localized: "start"))
+                    .disabled(isRecording)
+                    .accessibilityLabel(
+                        isRecording
+                        ? String(localized: "recording_in_progress")
+                        : String(localized: "start")
+                    )
 
                     Button {
                         stopSpeechRecognition()
@@ -353,48 +357,103 @@ struct NewNoteView: View {
             }
         }
     }
+    
+    private func startRecordingFlow() {
+        AVAudioSession.sharedInstance().requestRecordPermission { micGranted in
+            DispatchQueue.main.async {
+                self.hasMicPermission = micGranted
+
+                guard micGranted else {
+                    self.errorState.show(
+                        String(localized: "mic_permission_denied")
+                    )
+                    return
+                }
+
+                SFSpeechRecognizer.requestAuthorization { status in
+                    DispatchQueue.main.async {
+                        self.hasSpeechPermission = status == .authorized
+
+                        guard status == .authorized else {
+                            self.errorState.show(
+                                String(localized: "speech_permission_denied")
+                            )
+                            return
+                        }
+
+                        self.startSpeechRecognition()
+                    }
+                }
+            }
+        }
+    }
+    
+    
 
     private func startSpeechRecognition() {
-        // Basit guard ve uyarı
+
         guard hasMicPermission else {
             errorState.show(String(localized: "mic_required"))
             return
         }
+
         guard hasSpeechPermission else {
             errorState.show(String(localized: "speech_required"))
             return
         }
+
         guard speechRecognizer?.isAvailable == true else {
             errorState.show(String(localized: "speech_unavailable"))
             return
         }
+
         guard !audioEngine.isRunning else { return }
+
+        speechBaseContent = content
 
         recognitionTask?.cancel()
         recognitionTask = nil
+
         speechRequest = SFSpeechAudioBufferRecognitionRequest()
-        if #available(iOS 13.0, *) {
-            speechRequest?.requiresOnDeviceRecognition = true
-        }
         speechRequest?.shouldReportPartialResults = true
 
         do {
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
-            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+
+            try audioSession.setCategory(
+                .record,
+                mode: .measurement,
+                options: .duckOthers
+            )
+
+            try audioSession.setActive(
+                true,
+                options: .notifyOthersOnDeactivation
+            )
 
             let inputNode = audioEngine.inputNode
+
             inputNode.removeTap(onBus: 0)
+
             let recordingFormat = inputNode.outputFormat(forBus: 0)
-            inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
+
+            inputNode.installTap(
+                onBus: 0,
+                bufferSize: 1024,
+                format: recordingFormat
+            ) { buffer, _ in
                 speechRequest?.append(buffer)
             }
 
             audioEngine.prepare()
             try audioEngine.start()
+
             isRecording = true
 
-            recognitionTask = speechRecognizer?.recognitionTask(with: speechRequest!) { result, error in
+            recognitionTask = speechRecognizer?.recognitionTask(
+                with: speechRequest!
+            ) { result, error in
+
                 if let result = result {
                     let transcript = result.bestTranscription.formattedString
 
@@ -402,16 +461,31 @@ struct NewNoteView: View {
                         if self.speechBaseContent.isEmpty {
                             self.content = transcript
                         } else {
-                            self.content = self.speechBaseContent + " " + transcript
+                            self.content =
+                                self.speechBaseContent + " " + transcript
                         }
                     }
                 }
+
                 if error != nil || (result?.isFinal ?? false) {
-                    stopSpeechRecognition()
+                    DispatchQueue.main.async {
+                        self.stopSpeechRecognition()
+                    }
                 }
             }
+
         } catch {
-            errorState.show(String(format: NSLocalizedString("speech_start_failed_format", comment: "Speech start failed"), error.localizedDescription))
+            isRecording = false
+
+            errorState.show(
+                String(
+                    format: NSLocalizedString(
+                        "speech_start_failed_format",
+                        comment: "Speech start failed"
+                    ),
+                    error.localizedDescription
+                )
+            )
         }
     }
 

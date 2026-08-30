@@ -54,6 +54,24 @@ final class AuthViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "loggedInUserID")
     }
 
+    func deleteAccount(modelContext: ModelContext) throws {
+        guard let user = currentUser else {
+            throw NSError(
+                domain: "Auth",
+                code: 2,
+                userInfo: [
+                    NSLocalizedDescriptionKey: "User not found"
+                ]
+            )
+        }
+
+        modelContext.delete(user)
+        try modelContext.save()
+
+        currentUser = nil
+        UserDefaults.standard.removeObject(forKey: "loggedInUserID")
+    }
+
     func register(name: String, email: String, password: String, modelContext: ModelContext) throws {
         // e-posta benzersiz olsun
         let existsDesc = FetchDescriptor<AppUser>(
